@@ -1,4 +1,4 @@
-from flask import abort, make_response, request
+from flask import abort, make_response
 
 from ..db import db
 
