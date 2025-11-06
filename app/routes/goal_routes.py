@@ -1,7 +1,7 @@
 from flask import Blueprint, Response, request
 from app.models.goal import Goal
 from app.models.task import Task
-from ..routes.route_utilities import get_instance_by_id, create_model
+from ..routes.route_utilities import validate_model, create_model
 from ..db import db
 
 bp = Blueprint("goals_bp", __name__, url_prefix="/goals")
@@ -30,12 +30,12 @@ def get_all_goal():
 
 @bp.get("/<goal_id>")
 def get_one_goal(goal_id):
-    goal = get_instance_by_id(Goal, goal_id)
+    goal = validate_model(Goal, goal_id)
     return goal.to_dict()
 
 @bp.put("/<goal_id>")
 def update_goal(goal_id):
-    goal = get_instance_by_id(Goal, goal_id)
+    goal = validate_model(Goal, goal_id)
     request_body = request.get_json()
 
     goal.title = request_body["title"]
@@ -45,7 +45,7 @@ def update_goal(goal_id):
 
 @bp.delete("/<goal_id>")
 def delete_goal(goal_id):
-    goal = get_instance_by_id(Goal, goal_id)
+    goal = validate_model(Goal, goal_id)
     db.session.delete(goal)
     db.session.commit()
 
@@ -53,7 +53,7 @@ def delete_goal(goal_id):
 
 @bp.post("/<goal_id>/tasks")
 def create_task_by_goal(goal_id):
-    goal = get_instance_by_id(Goal, goal_id)
+    goal = validate_model(Goal, goal_id)
     if goal.tasks:
         for task in goal.tasks:
             task.goal_id = None
@@ -77,7 +77,7 @@ def create_task_by_goal(goal_id):
 
 @bp.get("/<goal_id>/tasks")
 def get_task_by_goal(goal_id):
-    goal = get_instance_by_id(Goal, goal_id)
+    goal = validate_model(Goal, goal_id)
     response = goal.to_dict()
     result = {
         "id":response.get("id"),

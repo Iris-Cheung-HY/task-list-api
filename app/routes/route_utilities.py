@@ -2,7 +2,7 @@ from flask import abort, make_response, request
 
 from ..db import db
 
-def get_instance_by_id(cls, model_id):
+def validate_model(cls, model_id):
     try:
         model_id = int(model_id)
     except:
