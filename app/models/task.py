@@ -35,6 +35,6 @@ class Task(db.Model):
         new_task = cls(title=task_data["title"],
                     description=task_data["description"],
                     completed_at=None
-                    # goal_id=task_data.get("goal_id")
+                    goal_id=task_data.get("goal_id")
                     )
         return new_task
