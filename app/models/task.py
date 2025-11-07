@@ -25,7 +25,8 @@ class Task(db.Model):
             task_as_dict["is_complete"] = True
         elif not self.completed_at or self.completed_at == None:
             task_as_dict["is_complete"] = False
-        task_as_dict["goal_id"] = self.goal_id
+        if self.goal_id is not None:
+            task_as_dict["goal_id"] = self.goal_id
         
         return task_as_dict
     
@@ -33,6 +34,7 @@ class Task(db.Model):
     def from_dict(cls, task_data):
         new_task = cls(title=task_data["title"],
                     description=task_data["description"],
-                    completed_at=None,
-                    goal_id=task_data.get("goal_id"))
+                    completed_at=None
+                    # goal_id=task_data.get("goal_id")
+                    )
         return new_task

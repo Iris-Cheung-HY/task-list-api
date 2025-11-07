@@ -70,7 +70,7 @@ def create_task_by_goal(goal_id):
     response = goal.to_dict()
     result = {
         "id": response.get("id"),
-        "task_ids": response.get("task_ids")
+        "task_ids": [task.id for task in goal.tasks]
     }
     return result, 200
     
@@ -79,13 +79,14 @@ def create_task_by_goal(goal_id):
 def get_task_by_goal(goal_id):
     goal = validate_model(Goal, goal_id)
     response = goal.to_dict()
+
     result = {
         "id":response.get("id"),
         "title":response.get("title"),
         "tasks":[task.to_dict() for task in goal.tasks]
     }
 
-    return result
+    return result, 200
 
 
     

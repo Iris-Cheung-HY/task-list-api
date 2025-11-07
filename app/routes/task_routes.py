@@ -47,7 +47,6 @@ def get_all_task():
 @bp.get("/<task_id>")
 def get_one_task(task_id):
     task = validate_model(Task, task_id)
-
     return task.to_dict()
 
 @bp.patch("/<task_id>/mark_complete")
